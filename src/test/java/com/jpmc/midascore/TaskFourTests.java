@@ -1,5 +1,7 @@
 package com.jpmc.midascore;
 
+import com.jpmc.midascore.entity.UserRecord;
+import com.jpmc.midascore.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
+@EmbeddedKafka(partitions = 1)
 public class TaskFourTests {
     static final Logger logger = LoggerFactory.getLogger(TaskFourTests.class);
 
@@ -23,6 +25,9 @@ public class TaskFourTests {
     @Autowired
     private FileLoader fileLoader;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Test
     void task_four_verifier() throws InterruptedException {
         userPopulator.populate();
@@ -33,6 +38,13 @@ public class TaskFourTests {
         Thread.sleep(2000);
 
 
+        logger.info("----------------------------------------------------------");
+        logger.info("----------------------------------------------------------");
+        logger.info("----------------------------------------------------------");
+        Iterable<UserRecord> users = userRepository.findAll();
+        for (UserRecord user : users) {
+            logger.info("USER: " + user.getName() + " has balance: " + user.getBalance());
+        }
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
