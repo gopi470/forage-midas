@@ -1,0 +1,5 @@
+
+$env:JAVA_HOME="C:\Program Files\OpenLogic\jdk-17.0.14.7-hotspot"
+$env:Path="$env:JAVA_HOME\bin;" + ($env:Path -replace "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath;?", "")
+
+
